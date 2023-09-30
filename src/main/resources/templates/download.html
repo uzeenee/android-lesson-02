@@ -4,6 +4,49 @@
         <h2> 파일 다운로드 페이지</h2>
         <span>REST 요청을 보내 파일 목록을 불러오고, 다음 li에 다운로드 링크와 함께 삽입하십시오.</span>
         <span>파일 목록을 불러오는 예제에 대해서는 <a href="https://github.com/java-lesson-cbnu/android-lesson-01">이전 예제 레포지토리</a>를 참고하세요. </span>
+        <ul id="file_list">
+            <!-- 파일 목록이 여기에 추가됩니다. -->
+        </ul>
+    </body>
+    <head>
+        <script type="application/javascript">
+            // 파일 목록을 가져와서 다운로드 링크를 생성하는 함수
+            function loadFileList() {
+                // REST API 엔드포인트를 지정합니다.
+                const apiUrl = '/api/files';
+
+                // GET 요청을 보냅니다.
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        const fileListElement = document.getElementById('file_list');
+
+                        // 가져온 파일 목록을 반복하여 다운로드 링크를 생성하고 추가합니다.
+                        data.forEach(file => {
+                            const listItem = document.createElement('li');
+                            const downloadLink = document.createElement('a');
+                            downloadLink.textContent = file.name; // 파일 이름으로 표시
+                            downloadLink.href = `/api/download/${file.id}`; // 파일 다운로드 엔드포인트를 지정하세요.
+                            listItem.appendChild(downloadLink);
+                            fileListElement.appendChild(listItem);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('파일 목록을 불러오는 중 오류 발생:', error);
+                    });
+            }
+
+            // 페이지 로드 시 파일 목록을 불러오도록 호출
+            loadFileList();
+        </script>
+    </head>
+</html>
+<html>
+    <body>
+        <a href="/upload"> <--  업로드 페이지로 </a>
+        <h2> 파일 다운로드 페이지</h2>
+        <span>REST 요청을 보내 파일 목록을 불러오고, 다음 li에 다운로드 링크와 함께 삽입하십시오.</span>
+        <span>파일 목록을 불러오는 예제에 대해서는 <a href="https://github.com/java-lesson-cbnu/android-lesson-01">이전 예제 레포지토리</a>를 참고하세요. </span>
         <li id="file_list">
 
         </li>
